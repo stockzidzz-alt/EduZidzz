@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduZidzz | Interactive Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #ec4899;
+            --accent: #f59e0b;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            /* Background Pattern Edukasi */
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10l2 2m10 5h4m-4 10l3-3m15 0h2m10 10l-2-2m5-10h-4m-10 20l2 2M15 80l5 5m20-5h6m15-10l-3 3M80 20l-5 5m-20 0h-4m30 50l2 2' stroke='%234f46e5' stroke-width='1' fill='none' stroke-opacity='0.1'/%3E%3Ccircle cx='50' cy='50' r='2' fill='%234f46e5' fill-opacity='0.05'/%3E%3C/svg%3E");
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem 8%;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.03);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .logo { font-size: 1.6rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 12px; }
+
+        /* --- Hero Section --- */
+        .hero {
+            padding: 60px 8% 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 1rem; line-height: 1.2; }
+        .hero h1 span { color: var(--primary); }
+        .hero p { color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto 2rem; }
+
+        /* Floating Icons Decoration */
+        .floating-icon {
+            position: absolute;
+            color: var(--primary);
+            opacity: 0.15;
+            z-index: -1;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        /* --- Container & Layout --- */
+        .container { max-width: 1100px; margin: 0 auto 4rem; padding: 0 20px; }
+
+        .dashboard-stats {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            border-radius: 24px; padding: 2.5rem; color: white;
+            margin-bottom: 3rem; display: flex; flex-wrap: wrap;
+            justify-content: space-between; align-items: center; gap: 30px;
+            box-shadow: 0 20px 40px rgba(79, 70, 229, 0.2);
+        }
+
+        .progress-bar-bg { background: rgba(255,255,255,0.2); height: 14px; border-radius: 10px; margin: 15px 0; overflow: hidden; }
+        .progress-fill { background: #fff; height: 100%; width: 0%; border-radius: 10px; transition: 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67); }
+
+        .badge-display { display: flex; gap: 15px; }
+        .badge {
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+            padding: 15px; border-radius: 18px; text-align: center; width: 90px;
+            opacity: 0.3; transition: 0.5s; filter: grayscale(1);
+        }
+        .badge.unlocked { opacity: 1; filter: grayscale(0); background: rgba(255,255,255,0.2); transform: scale(1.1); border-color: gold; }
+        .badge i { font-size: 1.5rem; margin-bottom: 5px; display: block; }
+        .badge span { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; }
+
+        /* --- Cards Content --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        .card {
+            background: var(--card-bg); padding: 2.5rem; border-radius: 20px;
+            border: 1px solid rgba(0,0,0,0.05); transition: 0.4s;
+            position: relative; overflow: hidden;
+            cursor: pointer;
+        }
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+            background: var(--primary); opacity: 0; transition: 0.3s;
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 30px rgba(0,0,0,0.05); }
+        .card:hover::before { opacity: 1; }
+
+        .card i.main-icon { font-size: 2.5rem; color: var(--primary); margin-bottom: 1.5rem; display: block; }
+        .card h3 { font-size: 1.4rem; margin-bottom: 10px; }
+        .card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
+
+        .tag {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.75rem; font-weight: 700; background: #e0e7ff; color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .completed-mark { color: #10b981; font-size: 1.2rem; margin-left: 10px; display: none; }
+
+        /* --- Footer --- */
+        footer { text-align: center; padding: 40px; color: var(--text-muted); font-size: 0.9rem; }
+
+        .content-section { display: none; animation: slideUp 0.6s ease; }
+        .content-section.active { display: block; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .btn-back {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: none; border: none; color: var(--primary);
+            font-weight: 700; cursor: pointer; margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .dashboard-stats { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo"><i class="fas fa-book-open"></i> EduZidzz</div>
+    <div style="font-weight: 600; color: var(--text-muted); font-size: 0.9rem;">
+        <i class="far fa-calendar-alt"></i> <span id="date"></span>
+    </div>
+</header>
+
+<i class="fas fa-microscope floating-icon" style="top: 15%; left: 5%; font-size: 3rem;"></i>
+<i class="fas fa-calculator floating-icon" style="top: 40%; right: 8%; font-size: 2.5rem;"></i>
+<i class="fas fa-palette floating-icon" style="bottom: 20%; left: 10%; font-size: 3.5rem;"></i>
+<i class="fas fa-atom floating-icon" style="top: 60%; right: 15%; font-size: 4rem;"></i>
+
+<section id="home-ui">
+    <div class="hero">
+        <div class="tag">EDUKASI ALL-IN-ONE</div>
+        <h1>Tingkatkan <span>Potensimu</span>,<br>Bentuk Karaktermu.</h1>
+        <p>Platform belajar interaktif untuk remaja SMK. Kuasai etika, jaga kesehatan mental, dan temukan cara belajar paling efektif.</p>
+    </div>
+
+    <div class="container">
+        <div class="dashboard-stats">
+            <div style="flex: 1; min-width: 280px;">
+                <h2 style="font-weight: 800; font-size: 1.8rem;">Pusat Belajar Zidni</h2>
+                <div class="progress-bar-bg">
+                    <div class="progress-fill" id="progressBar"></div>
+                </div>
+                <p id="progressText" style="font-weight: 600;">0% Materi diselesaikan</p>
+            </div>
+            <div class="badge-display">
+                <div class="badge" id="badge1"><i class="fas fa-award"></i><span>Etika</span></div>
+                <div class="badge" id="badge2"><i class="fas fa-brain"></i><span>Mental</span></div>
+                <div class="badge" id="badge3"><i class="fas fa-rocket"></i><span>Skill</span></div>
+            </div>
+        </div>
+
+        <div id="main-menu" class="grid">
+            <div class="card" onclick="showSection('etika')">
+                <i class="fas fa-hands-helping main-icon"></i>
+                <div class="tag">SOCIAL SKILLS</div>
+                <h3>Etika Pergaulan</h3>
+                <p>Bagaimana menjadi pribadi yang dihargai dan punya attitude keren di lingkungan SMK.</p>
+                <span style="color: var(--primary); font-weight: 700;">Pelajari Sekarang →</span>
+            </div>
+            <div class="card" onclick="showSection('mental')">
+                <i class="fas fa-spa main-icon"></i>
+                <div class="tag">SELF CARE</div>
+                <h3>Kesehatan Mental</h3>
+                <p>Tips mengatasi stres, overthinking, dan membangun rasa percaya diri yang kuat.</p>
+                <span style="color: var(--primary); font-weight: 700;">Pelajari Sekarang →</span>
+            </div>
+            <div class="card" onclick="showSection('tips')">
+                <i class="fas fa-graduation-cap main-icon"></i>
+                <div class="tag">STUDY HACKS</div>
+                <h3>Tips Belajar</h3>
+                <p>Bocoran teknik belajar para juara tanpa harus begadang tiap malam.</p>
+                <span style="color: var(--primary); font-weight: 700;">Pelajari Sekarang →</span>
+            </div>
+        </div>
+
+        <div id="etika" class="content-section">
+            <button class="btn-back" onclick="backToHome()"><i class="fas fa-chevron-left"></i> Kembali</button>
+            <h2 style="margin-bottom: 20px;">Materi: Etika Pergaulan</h2>
+            <div class="grid">
+                <div class="card" onclick="completeTask('e1', this)">
+                    <h3>Etika Berbicara <i class="fas fa-check-circle completed-mark"></i></h3>
+                    <p>Kontak mata saat bicara dan tidak memotong pembicaraan orang lain.</p>
+                </div>
+                <div class="card" onclick="completeTask('e2', this)">
+                    <h3>Netiket (Etika Internet) <i class="fas fa-check-circle completed-mark"></i></h3>
+                    <p>Stop Cyberbullying. Pikirkan perasaan orang lain sebelum memposting komentar.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="mental" class="content-section">
+            <button class="btn-back" onclick="backToHome()"><i class="fas fa-chevron-left"></i> Kembali</button>
+            <h2 style="margin-bottom: 20px;">Materi: Kesehatan Mental</h2>
+            <div class="grid">
+                <div class="card" onclick="completeTask('m1', this)">
+                    <h3>Mengenali Burnout <i class="fas fa-check-circle completed-mark"></i></h3>
+                    <p>Tanda-tanda kamu butuh istirahat dari tugas sekolah yang menumpuk.</p>
+                </div>
+                <div class="card" onclick="completeTask('m2', this)">
+                    <h3>Positive Affirmation <i class="fas fa-check-circle completed-mark"></i></h3>
+                    <p>Cara membuang pikiran negatif dan menggantinya dengan semangat baru.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="tips" class="content-section">
+            <button class="btn-back" onclick="backToHome()"><i class="fas fa-chevron-left"></i> Kembali</button>
+            <h2 style="margin-bottom: 20px;">Materi: Tips Belajar</h2>
+            <div class="grid">
+                <div class="card" onclick="completeTask('t1', this)">
+                    <h3>Active Recall <i class="fas fa-check-circle completed-mark"></i></h3>
+                    <p>Teknik menguji diri sendiri untuk memperkuat ingatan jangka panjang.</p>
+                </div>
+                <div class="card" onclick="completeTask('t2', this)">
+                    <h3>Lingkungan Kondusif <i class="fas fa-check-circle completed-mark"></i></h3>
+                    <p>Cara menata meja belajar agar fokus meningkat hingga 200%.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2026 EduZidzz Hub - Dibuat untuk Pelajar Indonesia</p>
+</footer>
+
+<script>
+    // Update Tanggal Otomatis
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('date').innerText = new Date().toLocaleDateString('id-ID', options);
+
+    let finished = new Set();
+    const total = 6;
+
+    function showSection(id) {
+        document.getElementById('main-menu').style.display = 'none';
+        document.querySelector('.hero').style.display = 'none';
+        document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    function backToHome() {
+        document.getElementById('main-menu').style.display = 'grid';
+        document.querySelector('.hero').style.display = 'block';
+        document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+    }
+
+    function completeTask(taskId, el) {
+        if (!finished.has(taskId)) {
+            finished.add(taskId);
+            el.querySelector('.completed-mark').style.display = 'inline';
+            el.style.border = '2px solid #10b981';
+            updateUI();
+        }
+    }
+
+    function updateUI() {
+        const percent = Math.round((finished.size / total) * 100);
+        document.getElementById('progressBar').style.width = percent + '%';
+        document.getElementById('progressText').innerText = percent + '% Materi diselesaikan';
+
+        // Unlock Badges
+        if(finished.has('e1') && finished.has('e2')) document.getElementById('badge1').classList.add('unlocked');
+        if(finished.has('m1') && finished.has('m2')) document.getElementById('badge2').classList.add('unlocked');
+        if(finished.has('t1') && finished.has('t2')) document.getElementById('badge3').classList.add('unlocked');
+
+        if(percent === 100) {
+            setTimeout(() => alert('Selamat Zidni! Semua Badge telah terbuka! 🏆'), 500);
+        }
+    }
+</script>
+</body>
+</html>
